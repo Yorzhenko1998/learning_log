@@ -50,6 +50,8 @@ def new_topic(request):
 def new_entry(request, topic_id):
 	"""Add a new entry for a particular topic."""
 	topic  = Topic.objects.get(id=topic_id)
+	check_topic_owner(topic, request.user)
+
 	if request.method != 'POST':
 		# No data sent; create an empty form.
 		form = EntryForm()
@@ -71,8 +73,7 @@ def edit_entry(request, entry_id):
 	"""Edit an existing entry."""
 	entry = Entry.objects.get(id=entry_id)
 	topic = entry.topic
-	if topic.owner != request.user:
-		raise Http404
+	check_topic_owner(topic, request.user)
 
 	if request.method != 'POST':
 		# Initial request; pre-fill form with the current entry.

@@ -1,16 +1,20 @@
 {% extends "learning_logs/base.html" %}
+{% load bootstrap4 %}
+
+{% block page_header %}
+    <h3>Delete topic</h3>
+{% endblock page_header %}
 
 {% block content %}
-
-  <p>Delete topic</p>
 
   <p>Are you sure you want to delete the topic "{{ topic }}"?</p>
 
   <form action="{% url 'learning_logs:delete_topic' topic.id %}" method="post">
-    {% csrf_token %}
-    <input type="submit" value="Delete">
+      {% csrf_token %}
+      <div class="btn-group">
+          <input type="submit" value="Delete" class="btn btn-danger mr-2">
+          <input type="button" value="Cancel" class="btn btn-info" onclick="window.location.href='{% url 'learning_logs:topics' %}'">
+      </div>
   </form>
-
-  <p><a href="{% url 'learning_logs:topic' topic.id %}">Cancel</a></p>
 
 {% endblock content %}
